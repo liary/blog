@@ -9,28 +9,28 @@ ps: 注册容器 = 注册了scrollUnique()了的元素
 
 ## 改进代码
 ```javascript
-  $.fn.scrollUnique = function() {
-		return $(this).each(function() {
-			var eventType = 'mousewheel', hash = new Date().getTime() + '-' + parseInt(Math.random() * 100);
-			if (document.mozHidden !== undefined) {
-				eventType = 'DOMMouseScroll';
-			}
-			!$(this).hasClass('scroll-unique-mark') && $(this).addClass('scroll-unique-mark');
-			$(this).attr('scroll-unique-hash', hash);
-			$(this).on(eventType, function(event) {
-				var scrollTop = this.scrollTop,
-					  scrollHeight = this.scrollHeight,
-					  height = this.clientHeight,
-					  $t = $(event.target);
+$.fn.scrollUnique = function() {
+	return $(this).each(function() {
+		var eventType = 'mousewheel', hash = new Date().getTime() + '-' + parseInt(Math.random() * 100);
+		if (document.mozHidden !== undefined) {
+			eventType = 'DOMMouseScroll';
+		}
+		!$(this).hasClass('scroll-unique-mark') && $(this).addClass('scroll-unique-mark');
+		$(this).attr('scroll-unique-hash', hash);
+		$(this).on(eventType, function(event) {
+			var scrollTop = this.scrollTop,
+				  scrollHeight = this.scrollHeight,
+				  height = this.clientHeight,
+				  $t = $(event.target);
 
-				var delta = (event.originalEvent.wheelDelta) ? event.originalEvent.wheelDelta : -(event.originalEvent.detail || 0);        
-				if ((delta > 0 && scrollTop <= delta) || (delta < 0 && scrollHeight - height - scrollTop <= -1 * delta)) {
-					if ($t.parents('.scroll-unique-mark').eq(0).attr('scroll-unique-hash') === $(this).attr('scroll-unique-hash') || $t.hasClass('scroll-unique-mark') && $t.attr('scroll-unique-hash') === $(this).attr('scroll-unique-hash')) {
-						this.scrollTop = delta > 0 ? 0: scrollHeight;
-						event.preventDefault();
-					}
-				}        
-			});
-		});	
-	};
+			var delta = (event.originalEvent.wheelDelta) ? event.originalEvent.wheelDelta : -(event.originalEvent.detail || 0);        
+			if ((delta > 0 && scrollTop <= delta) || (delta < 0 && scrollHeight - height - scrollTop <= -1 * delta)) {
+				if ($t.parents('.scroll-unique-mark').eq(0).attr('scroll-unique-hash') === $(this).attr('scroll-unique-hash') || $t.hasClass('scroll-unique-mark') && $t.attr('scroll-unique-hash') === $(this).attr('scroll-unique-hash')) {
+					this.scrollTop = delta > 0 ? 0: scrollHeight;
+					event.preventDefault();
+				}
+			}        
+		});
+	});	
+};
 ```
